@@ -378,8 +378,6 @@ Ce projet est à des fins éducatives. Tous les codes et documentations sont fou
 
 - 🌐 GitHub: [@YoussefBoukharta](https://github.com/YoussefBoukharta)
 - 📂 Repository: [bigdata](https://github.com/YoussefBoukharta/bigdata)
-- 📧 Contact: [Votre email ici]
-
 ---
 
 ## 📚 Ressources
@@ -397,12 +395,4 @@ Ce projet est à des fins éducatives. Tous les codes et documentations sont fou
 - [Pig Latin Basics](https://pig.apache.org/docs/latest/basic.html)
 - [HiveQL Language Manual](https://cwiki.apache.org/confluence/display/Hive/LanguageManual)
 
----
 
-<p align="center">
-  <strong>⭐ Si ce repository vous a été utile, n'hésitez pas à lui donner une étoile ! ⭐</strong>
-</p>
-
-<p align="center">
-  Made with ❤️ for Big Data enthusiasts
-</p>
