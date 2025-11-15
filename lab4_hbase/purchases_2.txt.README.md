@@ -4,11 +4,6 @@
 
 Le fichier `purchases_2.txt` (232 MB) est trop volumineux pour être hébergé sur GitHub.
 
-### 📥 Téléchargement
-
-Vous pouvez télécharger le fichier depuis :
-- [Google Drive](#) - *Lien à ajouter*
-- [Dropbox](#) - *Lien à ajouter*
 
 ### 📊 Format des données
 
