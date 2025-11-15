@@ -1,392 +1,408 @@
-# Big Data - Hadoop & Kafka
+# 🎓 Big Data Labs - Écosystème Hadoop
 
-[![Java](https://img.shields.io/badge/Java-85.9%25-orange)](https://github.com/YoussefBoukharta/bigdata)
-[![Python](https://img.shields.io/badge/Python-14.1%25-blue)](https://github.com/YoussefBoukharta/bigdata)
+[![Java](https://img.shields.io/badge/Java-ED8B00?style=flat&logo=java&logoColor=white)](https://www.java.com)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org)
+[![Hadoop](https://img.shields.io/badge/Hadoop-66CCFF?style=flat&logo=apache-hadoop&logoColor=black)](https://hadoop.apache.org)
+[![Kafka](https://img.shields.io/badge/Apache_Kafka-231F20?style=flat&logo=apache-kafka&logoColor=white)](https://kafka.apache.org)
+[![HBase](https://img.shields.io/badge/HBase-FF0000?style=flat&logo=apache&logoColor=white)](https://hbase.apache.org)
+[![Hive](https://img.shields.io/badge/Hive-FDEE21?style=flat&logo=apache-hive&logoColor=black)](https://hive.apache.org)
 
-Projet de traitement Big Data avec Hadoop MapReduce et Apache Kafka.
+Collection complète de travaux pratiques sur l'écosystème Big Data : Hadoop, MapReduce, Kafka, HBase, Pig et Hive.
 
 **Repository GitHub :** [github.com/YoussefBoukharta/bigdata](https://github.com/YoussefBoukharta/bigdata)
 
-## 🚀 Installation Rapide
+---
 
-### 1. Télécharger l'image Docker
-```bash
-docker pull yassern1/hadoop-spark-jupyter:1.0.3
-```
+## 📚 Table des Matières
 
-### 2. Créer le réseau
-```bash
-docker network create --driver=bridge hadoop
-```
-
-### 3. Lancer les conteneurs
-
-**Master :**
-```bash
-docker run -itd -v C:\Users\pc\Documents\hadoop_project/:/shared_volume --net=hadoop -p 9870:9870 -p 8088:8088 -p 7077:7077 -p 19888:19888 --name hadoop-master --hostname hadoop-master yassern1/hadoop-spark-jupyter:1.0.3
-```
-
-**Slave 1 :**
-```bash
-docker run -itd -p 8040:8042 --net=hadoop --name hadoop-slave1 --hostname hadoop-slave1 yassern1/hadoop-spark-jupyter:1.0.3
-```
-
-**Slave 2 :**
-```bash
-docker run -itd -p 8041:8042 --net=hadoop --name hadoop-slave2 --hostname hadoop-slave2 yassern1/hadoop-spark-jupyter:1.0.3
-```
-
-### 4. Initialiser HDFS
-```bash
-docker exec -it hadoop-master bash
-./start-hadoop.sh
-hadoop fs -mkdir -p /user/root
-hdfs dfs -mkdir input
-```
-
-### 5. Charger des données
-```bash
-hdfs dfs -put /shared_volume/datasets/fichier.txt input/
-```
-
+| Lab | Technologie | Description | Lien |
+|-----|-------------|-------------|------|
+| **Lab 0** | Docker Compose | Configuration de l'environnement | [📂 lab0/](./lab0) |
+| **Lab 1-3** | Hadoop + Kafka | HDFS, MapReduce, Streaming | [📂 lab1,2,3/](./lab1,2,3) |
+| **Lab 4** | HBase | Base de données NoSQL | [📂 lab4_hbase/](./lab4_hbase) |
+| **Lab 5** | Apache Pig | Traitement de données massives | [📂 lab5_PIG/](./lab5_PIG) |
+| **Lab 6** | Apache Hive | Data Warehousing & Analytics | [📂 lab6_Hive/](./lab6_Hive) |
 
 ---
 
-## 📂 Applications HDFS
+## 🚀 Lab 0 : Configuration Docker
 
-**JARs précompilés disponibles dans le repository :**
-- `HadoopFileStatus.jar` - Gestion des métadonnées de fichiers
-- `HDFSWrite.jar` - Écriture dans HDFS
-- `ReadHDFS.jar` - Lecture depuis HDFS
-- `WordCount.jar` - MapReduce WordCount
+**Objectif :** Mise en place de l'environnement de développement Big Data avec Docker.
 
-### 1. Afficher les infos d'un fichier
-```bash
-hadoop jar /shared_volume/HadoopFileStatus.jar edu.ensias.bigdata.tp1.HadoopFileStatus /user/root/input purchases.txt nouveau_nom.txt
-```
+### Contenu
+- `docker-compose.yaml` - Configuration du cluster Hadoop
 
-### 2. Voir les blocs HDFS
-```bash
-hadoop jar /shared_volume/HDFSInfo.jar edu.ensias.bigdata.tp1.HDFSInfo /user/root/input/fichier.txt
-```
+### Technologies
+- Docker & Docker Compose
+- Cluster Hadoop (Master + Slaves)
 
-### 3. Lire un fichier
-```bash
-hadoop jar /shared_volume/ReadHDFS.jar edu.ensias.bigdata.tp1.ReadHDFS /user/root/input/purchases.txt
-```
-
-### 4. Écrire dans HDFS
-```bash
-hadoop jar /shared_volume/HDFSWrite.jar edu.ensias.bigdata.tp1.HDFSWrite /user/root/output/message.txt "Votre texte"
-```
+[📖 Voir le Lab 0](./lab0)
 
 ---
 
-## 🔄 MapReduce - WordCount Java
+## 📦 Lab 1-2-3 : Hadoop, HDFS, MapReduce & Kafka
 
-### Compiler le projet
-```bash
-cd BigData
-mvn clean package
+**Objectif :** Maîtriser les fondamentaux de Hadoop et du streaming de données.
+
+### Contenu Principal
+
+#### 🔷 HDFS - Hadoop Distributed File System
+- **HadoopFileStatus.jar** - Gestion des métadonnées de fichiers
+- **HDFSInfo.jar** - Informations sur les blocs HDFS
+- **HDFSWrite.jar** - Écriture dans HDFS
+- **ReadHDFS.jar** - Lecture depuis HDFS
+
+#### 🔷 MapReduce
+- **WordCount.jar** - Comptage de mots (Java)
+- **Python MapReduce** - WordCount avec Hadoop Streaming
+
+#### 🔷 Apache Kafka
+- **EventProducer** - Producteur de messages
+- **EventConsumer** - Consommateur de messages
+- **WordCountApp** - Kafka Streams
+
+### Structure
+```
+lab1,2,3/
+├── BigData/          # Code source Java (HDFS + MapReduce)
+├── kafka_lab/        # Applications Kafka
+├── python/           # MapReduce Python
+├── datasets/         # Données de test
+├── *.jar            # JARs précompilés
+└── README.md
 ```
 
-### Exécuter WordCount
-```bash
-hadoop jar /shared_volume/WordCount.jar input/fichier.txt output/resultat
-```
-
-### Voir les résultats
-```bash
-hadoop fs -cat output/resultat/part-r-00000
-```
-
-**Note :** Supprimer le dossier de sortie s'il existe déjà :
-```bash
-hadoop fs -rm -r output/resultat
-```
+[📖 Voir les Labs 1-2-3](./lab1,2,3)
 
 ---
 
-## 🐍 MapReduce - WordCount Python
+## 🗄️ Lab 4 : Apache HBase
 
-### Tester localement
-```bash
-cd /shared_volume/python
-cat alice.txt | python3 mapper.py
-cat alice.txt | python3 mapper.py | sort | python3 reducer.py
-```
+**Objectif :** Manipulation d'une base de données NoSQL orientée colonnes sur Hadoop.
 
-### Exécuter sur Hadoop
-```bash
-chmod +x mapper.py reducer.py
-hadoop fs -put alice.txt input/
+### Contenu
+- Code source Java pour opérations CRUD sur HBase
+- Dataset : `purchases_2.txt`
+- Rapport : `rapport_HBase.docx.pdf`
 
-hadoop jar /usr/local/hadoop/share/hadoop/tools/lib/hadoop-streaming-3.2.0.jar \
-    -files /shared_volume/python/mapper.py,/shared_volume/python/reducer.py \
-    -mapper "python3 mapper.py" \
-    -reducer "python3 reducer.py" \
-    -input input/alice.txt \
-    -output output_python
+### Fonctionnalités
+- ✅ Connexion au cluster HBase
+- ✅ Création de tables et familles de colonnes
+- ✅ Opérations CRUD (Create, Read, Update, Delete)
+- ✅ Scan et filtrage de données
+- ✅ Requêtes avancées
 
-hadoop fs -cat output_python/part-00000 | head -20
-```
+### Technologies
+- Apache HBase
+- Java HBase Client API
+- Hadoop HDFS (stockage)
 
----
-
-## 📨 Apache Kafka
-
-### Démarrage
-```bash
-docker exec -it hadoop-master bash
-./start-hadoop.sh
-./start-kafka-zookeeper.sh
-jps  # Vérifier que Kafka est démarré
-```
-
-### Créer un topic
-```bash
-kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic mon-topic
-```
-
-### Lister les topics
-```bash
-kafka-topics.sh --list --bootstrap-server localhost:9092
-```
+[📖 Voir le Lab 4](./lab4_hbase)
 
 ---
 
-## 🔧 Kafka Producer/Consumer
+## 🐷 Lab 5 : Apache Pig
 
-### Compiler
-```bash
-cd kafka_lab
-mvn clean package -DskipTests
-cp target/*.jar /shared_volume/kafka/
-```
+**Objectif :** Traitement de données massives avec Pig Latin.
 
-### Lancer le Consumer
-```bash
-java -jar /shared_volume/kafka/consumer.jar mon-topic
-```
+### Scripts Pig
+- **wordcount.pig** - Comptage de mots
+- **employees.pig** - Analyse d'employés
+- **films.pig** - Analyse de films (JSON)
+- **flights.pig** - Analyse de vols aériens
 
-### Lancer le Producer (autre terminal)
-```bash
-java -jar /shared_volume/kafka/producer.jar mon-topic
-```
+### Analyses Réalisées
+1. **WordCount** - Comptage de mots dans un texte
+2. **Employés** - Salaires, départements, jointures
+3. **Films** - Base de données de films (acteurs, réalisateurs)
+4. **Vols** - Top aéroports, retards, transporteurs
 
-### Tester avec CLI
-**Producer :**
-```bash
-kafka-console-producer.sh --bootstrap-server localhost:9092 --topic mon-topic
-```
+### Technologies
+- Apache Pig (Pig Latin)
+- Hadoop MapReduce (backend)
+- PiggyBank (JSONLoader)
 
-**Consumer :**
-```bash
-kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic mon-topic --from-beginning
-```
+[📖 Voir le Lab 5](./lab5_PIG)
 
 ---
 
-## 🔗 Kafka Connect
+## 🐝 Lab 6 : Apache Hive
 
-### Configuration
-```bash
-cd $KAFKA_HOME
-echo "plugin.path=/usr/local/kafka/libs/" >> config/connect-standalone.properties
-```
+**Objectif :** Data Warehousing et requêtes analytiques avec HiveQL.
 
-### Créer le topic
-```bash
-kafka-topics.sh --create --bootstrap-server localhost:9092 --topic connect-test --partitions 1 --replication-factor 1
-```
+### Scripts HiveQL
+- **Creation.hql** - Création de schémas et tables
+- **Loading.hql** - Chargement des données
+- **Queries.hql** - Requêtes analytiques
 
-### Créer le fichier source
-```bash
-echo "Bonjour Kafka" > test.txt
-echo "Bienvenue dans le streaming" >> test.txt
-```
+### Cas d'Étude : Réservations d'Hôtels
+- Tables : `clients`, `hotels`, `reservations`
+- Partitionnement dynamique (par date, par ville)
+- Bucketing (clustering par client_id)
 
-### Démarrer Connect
-```bash
-./bin/connect-standalone.sh \
-    config/connect-standalone.properties \
-    config/connect-file-source.properties \
-    config/connect-file-sink.properties
-```
+### Requêtes Analytiques
+- ✅ Jointures complexes
+- ✅ Agrégations (SUM, COUNT, AVG)
+- ✅ Subqueries (requêtes imbriquées)
+- ✅ Optimisations (partitions + buckets)
 
-### Vérifier
-```bash
-cat test.sink.txt
-```
+### Technologies
+- Apache Hive 4.0.0-alpha-2
+- HiveServer2 + Beeline (client JDBC)
+- Derby Metastore
 
-### Tester en temps réel
-```bash
-echo "Nouveau message" >> test.txt
-cat test.sink.txt  # Doit afficher le nouveau message
-```
+### Documentation
+📄 **Rapport complet** : `YOUSSEF_BOUKHARTA_TP6_HIVE.pdf`
+
+[📖 Voir le Lab 6](./lab6_Hive)
 
 ---
 
-## 📊 Kafka Streams - WordCount
-
-### Créer les topics
-```bash
-kafka-topics.sh --create --bootstrap-server localhost:9092 --topic input-topic --partitions 1 --replication-factor 1
-kafka-topics.sh --create --bootstrap-server localhost:9092 --topic output-topic --partitions 1 --replication-factor 1
-```
-
-### Lancer l'application
-```bash
-java -jar /shared_volume/kafka/wordcount-app.jar input-topic output-topic
-```
-
-### Envoyer des données (autre terminal)
-```bash
-kafka-console-producer.sh --broker-list localhost:9092 --topic input-topic
-```
-Taper :
-```
-Bonjour le monde
-Kafka est formidable
-Bonjour à tous
-```
-
-### Voir les résultats (autre terminal)
-```bash
-kafka-console-consumer.sh --topic output-topic --from-beginning --bootstrap-server localhost:9092 --property print.key=true
-```
-
-**Sortie attendue :**
-```
-bonjour	Mot: , Nombre: 2
-le	Mot: , Nombre: 1
-monde	Mot: , Nombre: 1
-kafka	Mot: , Nombre: 1
-...
-```
-
----
-
-## 🛠️ Commandes Utiles
-
-### Cleanup Script (PowerShell)
-Le repository inclut un script `cleanup_script.ps1` pour nettoyer l'environnement :
-```powershell
-.\cleanup_script.ps1
-```
-
-### HDFS
-```bash
-hadoop fs -ls /                    # Lister les fichiers
-hadoop fs -rm -r /chemin          # Supprimer un dossier
-hadoop fs -cat /fichier           # Afficher un fichier
-hadoop fs -put local.txt hdfs/    # Copier vers HDFS
-hadoop fs -get hdfs/file local/   # Récupérer depuis HDFS
-```
-
-### Kafka
-```bash
-jps                               # Processus Java actifs
-kafka-topics.sh --list --bootstrap-server localhost:9092
-kafka-topics.sh --describe --topic mon-topic --bootstrap-server localhost:9092
-kafka-topics.sh --delete --topic mon-topic --bootstrap-server localhost:9092
-```
+## 🛠️ Installation & Prérequis
 
 ### Docker
 ```bash
-docker start hadoop-master hadoop-slave1 hadoop-slave2
-docker stop hadoop-master hadoop-slave1 hadoop-slave2
-docker exec -it hadoop-master bash
+# Installer Docker Desktop
+# https://www.docker.com/products/docker-desktop
+
+# Vérifier l'installation
+docker --version
+docker-compose --version
+```
+
+### Java (JDK 8+)
+```bash
+java -version
+```
+
+### Maven (pour compilation)
+```bash
+mvn --version
 ```
 
 ---
 
-## 📌 Structure du Projet
+## 🚀 Démarrage Rapide
 
-```
-bigdata/                      # Repository GitHub
-├── BigData/                  # Code source Hadoop
-│   ├── src/main/java/
-│   │   └── edu/ensias/
-│   │       ├── bigdata/tp1/  # Applications HDFS
-│   │       │   ├── HadoopFileStatus.java
-│   │       │   ├── HDFSInfo.java
-│   │       │   ├── HDFSWrite.java
-│   │       │   └── ReadHDFS.java
-│   │       └── hadoop/mapreducelab/  # MapReduce
-│   │           ├── TokenizerMapper.java
-│   │           ├── IntSumReducer.java
-│   │           └── WordCount.java
-│   └── pom.xml
-├── python/                   # MapReduce Python
-│   ├── mapper.py
-│   ├── reducer.py
-│   └── alice.txt
-├── datasets/                 # Données de test
-│   ├── purchases.txt
-│   ├── calls.txt
-│   ├── alice.txt
-│   └── coran_converted.txt
-├── HadoopFileStatus.jar     # JARs précompilés
-├── HDFSWrite.jar
-├── ReadHDFS.jar
-├── WordCount.jar
-├── cleanup_script.ps1       # Script de nettoyage
-├── README.md
-└── info.txt
-```
-
----
-
-## 🎯 Technologies
-
-- **Hadoop 3.2.0** - HDFS, MapReduce, YARN
-- **Java 8** - Applications (85.9% du code)
-- **Python 3** - Hadoop Streaming (14.1% du code)
-- **Maven** - Build & Gestion des dépendances
-- **Docker** - Conteneurisation (yassern1/hadoop-spark-jupyter:1.0.3)
-
----
-
-## 🚀 Quick Start
-
-### Cloner le repository
+### 1. Cloner le Repository
 ```bash
 git clone https://github.com/YoussefBoukharta/bigdata.git
 cd bigdata
 ```
 
-### Utiliser les JARs précompilés
-Les JARs sont déjà compilés et prêts à l'emploi. Copiez-les dans votre volume partagé :
+### 2. Choisir un Lab
 ```bash
-# Sur Windows
-copy *.jar C:\Users\pc\Documents\hadoop_project\
-
-# Sur Linux/Mac
-cp *.jar /path/to/shared_volume/
+# Exemple : Lab 5 (Apache Pig)
+cd lab5_PIG
+cat README.md
 ```
 
-### Compiler depuis les sources (optionnel)
-```bash
-cd BigData
-mvn clean package
+### 3. Suivre les Instructions
+Chaque lab contient son propre README avec :
+- ✅ Instructions d'installation
+- ✅ Commandes d'exécution
+- ✅ Exemples de résultats
+- ✅ Scripts prêts à l'emploi
+
+---
+
+## 📊 Technologies & Outils
+
+### Big Data Core
+- **Hadoop 3.2.0** - Framework distribué (HDFS + YARN + MapReduce)
+- **Apache Kafka 3.5.1** - Streaming de données en temps réel
+- **Apache HBase** - Base de données NoSQL orientée colonnes
+- **Apache Pig 0.17.0** - Langage de traitement de données (Pig Latin)
+- **Apache Hive 4.0.0** - Data Warehousing & SQL sur Hadoop
+
+### Développement
+- **Java 8** - Développement d'applications Big Data
+- **Python 3** - Hadoop Streaming, scripts de traitement
+- **Maven** - Gestion de dépendances et build
+
+### Infrastructure
+- **Docker** - Conteneurisation des services
+- **Docker Compose** - Orchestration multi-conteneurs
+
+---
+
+## 📂 Structure Complète du Repository
+
+```
+bigdata/
+├── lab0/                          # Configuration Docker
+│   └── docker-compose.yaml
+│
+├── lab1,2,3/                      # Hadoop + Kafka
+│   ├── BigData/                   # Code source HDFS + MapReduce
+│   │   ├── src/main/java/
+│   │   │   └── edu/ensias/
+│   │   │       ├── bigdata/tp1/   # Applications HDFS
+│   │   │       └── hadoop/        # MapReduce
+│   │   └── pom.xml
+│   ├── kafka_lab/                 # Code source Kafka
+│   │   ├── src/main/java/
+│   │   │   └── edu/ensias/kafka/
+│   │   └── pom.xml
+│   ├── python/                    # MapReduce Python
+│   ├── datasets/                  # Données de test
+│   ├── *.jar                      # JARs précompilés
+│   └── README.md
+│
+├── lab4_hbase/                    # Apache HBase
+│   ├── hbase-code/                # Code source Java
+│   ├── purchases_2.txt            # Dataset
+│   └── rapport_HBase.docx.pdf
+│
+├── lab5_PIG/                      # Apache Pig
+│   ├── wordcount.pig
+│   ├── employees.pig
+│   ├── films.pig
+│   ├── flights.pig
+│   └── README.md
+│
+├── lab6_Hive/                     # Apache Hive
+│   ├── Creation.hql
+│   ├── Loading.hql
+│   ├── Queries.hql
+│   ├── YOUSSEF_BOUKHARTA_TP6_HIVE.pdf
+│   └── README.md
+│
+└── README.md                      # Ce fichier
 ```
 
 ---
 
-## 📝 Notes
+## 🎯 Objectifs Pédagogiques
 
-- **Volume partagé** : Ajustez le chemin selon votre configuration
-- **Ports exposés** : 9870 (HDFS), 8088 (YARN), 8040-8041 (Slaves)
-- **JARs précompilés** : Disponibles à la racine du repository
-- **Datasets** : Fichiers de test fournis dans `/datasets`
+### Compétences Développées
+
+#### Architecture Big Data
+- ✅ Comprendre l'écosystème Hadoop
+- ✅ Maîtriser HDFS (stockage distribué)
+- ✅ Utiliser MapReduce pour traitement parallèle
+
+#### Traitement de Données
+- ✅ Pig Latin pour transformations de données
+- ✅ HiveQL pour requêtes analytiques (SQL-like)
+- ✅ Kafka pour streaming temps réel
+
+#### Bases de Données NoSQL
+- ✅ HBase (orientée colonnes)
+- ✅ Opérations CRUD à grande échelle
+
+#### DevOps & Infrastructure
+- ✅ Docker & conteneurisation
+- ✅ Configuration de clusters distribués
+- ✅ Gestion de volumes de données massifs
+
+---
+
+## 🎓 Progression Recommandée
+
+### Pour Débutants
+1. **Lab 0** → Configuration de l'environnement
+2. **Lab 1-3** → Fondamentaux (HDFS + MapReduce)
+3. **Lab 5** → Pig (plus simple que Java MapReduce)
+4. **Lab 6** → Hive (SQL familier)
+
+### Pour Utilisateurs Avancés
+1. **Lab 1-3** → Kafka Streams
+2. **Lab 4** → HBase (API Java)
+3. **Lab 5** → Pig (optimisations avancées)
+4. **Lab 6** → Hive (partitionnement + bucketing)
+
+---
+
+## 📝 Commandes Utiles
+
+### Docker
+```bash
+# Démarrer tous les conteneurs
+docker-compose up -d
+
+# Arrêter tous les conteneurs
+docker-compose down
+
+# Voir les logs
+docker-compose logs -f
+```
+
+### Hadoop (HDFS)
+```bash
+# Lister les fichiers
+hadoop fs -ls /
+
+# Copier vers HDFS
+hadoop fs -put local.txt /input/
+
+# Lire un fichier
+hadoop fs -cat /output/part-00000
+```
+
+### Exécution des Labs
+```bash
+# Lab 1-3 : WordCount Java
+hadoop jar WordCount.jar input/ output/
+
+# Lab 5 : Script Pig
+pig -x local wordcount.pig
+
+# Lab 6 : Script Hive
+beeline -u jdbc:hive2://localhost:10000 -f queries.hql
+```
+
+---
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! Pour contribuer :
+
+1. Forkez le projet
+2. Créez une branche (`git checkout -b feature/nouvelle-feature`)
+3. Commitez vos changements (`git commit -m 'Ajout d'une feature'`)
+4. Poussez vers la branche (`git push origin feature/nouvelle-feature`)
+5. Ouvrez une Pull Request
+
+---
+
+## 📄 Licence
+
+Ce projet est à des fins éducatives. Tous les codes et documentations sont fournis "tels quels" sans garantie.
 
 ---
 
 ## 👨‍💻 Auteur
 
 **Youssef Boukharta**
-- GitHub: [@YoussefBoukharta](https://github.com/YoussefBoukharta)
-- Repository: [bigdata](https://github.com/YoussefBoukharta/bigdata)
 
+- 🌐 GitHub: [@YoussefBoukharta](https://github.com/YoussefBoukharta)
+- 📂 Repository: [bigdata](https://github.com/YoussefBoukharta/bigdata)
+- 📧 Contact: [Votre email ici]
 
+---
+
+## 📚 Ressources
+
+### Documentation Officielle
+- [Apache Hadoop](https://hadoop.apache.org/)
+- [Apache Kafka](https://kafka.apache.org/)
+- [Apache HBase](https://hbase.apache.org/)
+- [Apache Pig](https://pig.apache.org/)
+- [Apache Hive](https://hive.apache.org/)
+
+### Tutoriels
+- [Hadoop Tutorial](https://hadoop.apache.org/docs/stable/)
+- [Kafka Quickstart](https://kafka.apache.org/quickstart)
+- [Pig Latin Basics](https://pig.apache.org/docs/latest/basic.html)
+- [HiveQL Language Manual](https://cwiki.apache.org/confluence/display/Hive/LanguageManual)
+
+---
+
+<p align="center">
+  <strong>⭐ Si ce repository vous a été utile, n'hésitez pas à lui donner une étoile ! ⭐</strong>
+</p>
+
+<p align="center">
+  Made with ❤️ for Big Data enthusiasts
+</p>
